@@ -187,11 +187,321 @@ class QuickSort(Scene):
         self.play(Write(qs))
         self.wait( DEFAULT_PAUSE )
 
-        self.play(Flash(
-            qs, line_length=1,
-            num_lines=30, color=RED,
-            flash_radius=2+SMALL_BUFF,
-            time_width=0.3, run_time=2,
-            rate_func = rush_from
-        ))
+        self.play(
+            Flash(
+                qs, line_length=1,
+                num_lines=30, color=RED,
+                flash_radius=2+SMALL_BUFF,
+                time_width=0.3, run_time=2,
+                rate_func = rush_from
+                )
+            )
         self.wait()
+
+        ran = Text("Random", gradient=(PURPLE, BLUE, GREEN)).scale(3).next_to(qs, UP)
+        self.play(
+            qs.animate().shift(DOWN),
+            FadeInFrom(ran, DOWN)
+            )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(Unwrite(qs), Unwrite(ran))
+        self.wait( DEFAULT_PAUSE )
+
+        v = Matrix([[2, 9, 8, 1, 7, 5, 6, 4, 2, 3, 0, 0, 0, 5, 7, 8, 4]], h_buff=.7)
+        self.play( GrowFromCenter(v) )
+        self.wait( DEFAULT_PAUSE )
+
+        pivot = v[0][7]
+        left, right = v[0][:7], v[0][8:]
+
+        left.save_state()   # salvo lo stato per fare il RESTORE dopo
+        right.save_state()  # salvo lo stato per fare il RESTORE dopo
+
+        self.play(
+            left.animate().scale(.9).set_opacity(.5),
+            right.animate().scale(.9).set_opacity(.5),
+            pivot.animate().scale(2)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        piv = Text("Pivot", color=ORANGE ).next_to(pivot, UP)
+        self.play(
+            FadeInFrom(piv, DOWN),
+            pivot.animate().set_color(ORANGE)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            FadeOut(piv, shift=UP),
+            Restore(left),
+            Restore(right),
+            pivot.animate().scale(.5)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        a, b = v[0][6], v[0][8]
+        arrow_b2a = Arrow(
+            max_tip_length_to_length_ratio=.2,
+            start=b.get_center()+UP*.5,
+            end=a.get_center()+UP*.5
+            )
+        arrow_a2b = Arrow(
+            max_tip_length_to_length_ratio=.2,
+            start=a.get_center()+DOWN*.5,
+            end=b.get_center()+DOWN*.5
+            )        
+
+
+        self.play( Indicate( b ), run_time=1 )
+        #self.play( VFadeInThenOut( arrow_b2a ), run_time=3 )
+        self.play( GrowArrow(arrow_b2a) )
+        self.play( FadeOut(arrow_b2a, shift=LEFT*4) )
+        self.wait()
+
+        self.play( Indicate( a ), run_time=1 )
+        #self.play( VFadeInThenOut( arrow_b2a ), run_time=3 )
+        self.play( GrowArrow(arrow_a2b) )
+        self.play( FadeOut(arrow_a2b, shift=RIGHT*4) )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( Swap(a, b), run_time=2 )
+        self.wait( DEFAULT_PAUSE )
+
+        a, b = v[0][5], v[0][9]
+        self.play(
+            Indicate(a),
+            Indicate(b),
+            run_time=2
+            )
+        self.wait()
+        self.play( Swap(a, b), run_time=2 )
+        self.wait()
+        a, b = v[0][4], v[0][10]
+        self.play(
+            Indicate(a),
+            Indicate(b),
+            run_time=1
+            )
+        self.wait()
+        self.play( Swap(a, b), run_time=1 )
+        self.wait( DEFAULT_PAUSE )
+
+        new_v = Matrix([[2, 9, 8, 1, 0, 3, 2, 4, 6, 5, 7, 0, 0, 5, 7, 8, 4]], h_buff=.7)
+        new_v[0][7].set_color(ORANGE)
+        self.play( Uncreate(v), run_time=0 )
+        self.add( new_v )
+        v = new_v
+        left, right = v[0][:7], v[0][8:]
+
+        brace_left = BraceLabel(left, "\\leq 4", UP).shift(UP*.5)
+        brace_right = BraceLabel(right, "> 4", UP).shift(UP*.5)
+
+        self.play(
+            Group(left, right).animate().shift( UP*.5 ),
+            FadeInFrom(brace_left, DOWN),
+            FadeInFrom(brace_right, DOWN)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        new_v = Matrix([[2, 0, 0, 4, 1, 0, 3, 2, 4, 6, 5, 7, 5, 7, 8, 8, 9]], h_buff=.7)
+        new_v[0][8].save_state()
+        new_v[0][8].set_color(ORANGE)
+
+        new_brace_left = BraceLabel(new_v[0][:8], "\\leq 4", UP)
+        new_brace_right = BraceLabel(new_v[0][9:], "> 4", UP)
+
+        self.play( 
+            TransformMatchingShapes(v, new_v),
+            Transform(brace_left, new_brace_left),
+            Transform(brace_right, new_brace_right),
+            run_time=2
+            )
+        v = new_v
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            FadeOut(Group(brace_left, brace_right), shift=UP),
+            Restore(new_v[0][8])
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Circumscribe(v[0][:8], fade_out=True, time_width=1, run_time=2)
+        )
+        self.wait()
+        new_v = Matrix([[2, 0, 0, 4, 1, 0, 3, 2]], h_buff=1.5)
+        self.play(
+            TransformMatchingShapes(v, new_v)
+        )
+        v = new_v
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            v[0][4].animate().scale(1.5).set_color(ORANGE)
+        )
+        self.wait()
+        self.play(
+            Swap(v[0][0], v[0][5]),
+            Swap(v[0][4], v[0][3], run_time=.75)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Circumscribe(Group(v[0][3], v[0][-1]), fade_out=True, time_width=1, run_time=2)
+        )
+        self.wait()
+        new_v = Matrix([[4, 2, 3, 2]], h_buff=2)
+        self.play(
+            TransformMatchingShapes(v, new_v)
+        )
+        v = new_v
+        self.wait( DEFAULT_PAUSE )
+
+        v[0][1].save_state()
+        self.play( v[0][1].animate().scale(1.5).set_color(ORANGE) )
+        self.wait()
+        self.play( Swap(v[0][0], v[0][-1]) )
+        self.wait()
+        sor = Tex("Stop! It's sorted.").next_to(v, UP*1.5)
+        self.play(
+            Restore(v[0][1]),
+            FadeInFrom(sor, DOWN)
+        )
+        self.wait( 1 )
+        self.play( FadeOut(sor, shift=UP*1.5) )
+        self.wait( DEFAULT_PAUSE )
+
+        came_back = Text("Came back").to_edge(DOWN)
+        new_v = Matrix([[0, 0, 0, 1, 2, 2, 3, 4]], h_buff=1.5)
+        self.play(
+            TransformMatchingShapes(v, new_v),
+            FadeInFrom(came_back, DOWN)
+        )
+        self.play( FadeOut(came_back, shift=DOWN) )
+        v = new_v
+        self.wait( DEFAULT_PAUSE )
+
+        sor = BraceText(v[0][:3], "Already sorted")
+        self.play(
+            Circumscribe(v[0][:3],fade_out=True, time_width=1, run_time=2),
+            FadeInFrom(sor, UP*.5)
+        )
+        self.play( FadeOut(sor, shift=UP*.5) )
+        self.wait()
+
+        sor = BraceText(v[0][:], "Sorted")
+        self.play(
+            Circumscribe(v[0][:],fade_out=True, time_width=1, run_time=2),
+            FadeInFrom(sor, UP*.5)
+        )
+        self.play( FadeOut(sor, shift=UP*.5) )
+        self.wait( DEFAULT_PAUSE )
+
+        new_v = Matrix([[0, 0, 0, 1, 2, 2, 3, 4, 4, 6, 5, 7, 5, 7, 8, 8, 9]], h_buff=.7)
+        self.play(
+            TransformMatchingShapes(v, new_v),
+            FadeInFrom(came_back, DOWN)
+        )
+        self.play( FadeOut(came_back, shift=DOWN) )
+        v = new_v
+        self.wait( DEFAULT_PAUSE )
+
+        repeat = Tex("Let's repeat on the right side").set_color(YELLOW).shift(UP*.5).scale(1.5)
+        v.save_state()
+        self.play(
+            GrowFromCenter(repeat),
+            v.animate().set_opacity(.3).scale(.75)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            FadeOut(repeat),
+            Restore(v)
+        )
+        self.wait()
+
+        self.play(
+            Circumscribe(v[0][9:], fade_out=True, time_width=1, run_time=2)
+        )
+        self.wait()
+
+        new_v = Matrix([[6, 5, 7, 5, 7, 8, 8, 9]], h_buff=1.5)
+        self.play(
+            TransformMatchingShapes(v, new_v)
+        )
+        v = new_v
+        self.wait()
+
+        self.play(
+            v[0][2].animate().scale(1.5).set_color(ORANGE)
+        )
+        self.wait()
+        self.play( Swap(v[0][2], v[0][3]) )
+        self.wait()
+
+        self.play( Circumscribe(Group(v[0][0], v[0][3]), fade_out=True, time_width=1, run_time=2) )
+        new_v = Matrix([[6, 5, 5]], h_buff=2)
+        self.play(
+            TransformMatchingShapes(v, new_v)
+        )
+        v = new_v
+        self.wait()
+        self.play(
+            v[0][1].animate().scale(1.5).set_color(ORANGE)
+        )
+        self.wait()
+        self.play( Swap(v[0][0], v[0][2]) )
+        self.wait()
+
+        sor = BraceText(v[0][:], "Sorted")
+        self.play( FadeInFrom(sor, UP) )
+        self.wait()
+
+        new_v = Matrix([[5, 5, 6, 7, 7, 8, 8, 9]], h_buff=1.5)
+        self.play(
+            TransformMatchingShapes(v, new_v),
+            FadeOut(sor, shift=UP)
+        )
+        v = new_v
+        self.wait()
+
+        sor = BraceText(v[0][4:], "Already sorted")
+        self.play( FadeInFrom(sor, UP) )
+        self.wait()
+
+        sor2 = BraceText(v[0][:], "Sorted", brace_direction=UP)
+        self.play(
+            FadeInFrom(sor2, DOWN),
+            FadeOut(sor, shift=UP)
+        )
+        self.wait()
+        
+        new_v = Matrix([[0, 0, 0, 1, 2, 2, 3, 4, 4, 5, 5, 6, 7, 7, 8, 8, 9]], h_buff=.7)
+        self.play(
+            TransformMatchingShapes(v, new_v),
+            FadeOut(sor2, shift=DOWN)
+        )
+        v = new_v
+        self.wait()
+
+        sor = Tex("Sorted :)").scale(1.3).next_to(v, UP*1.5)
+        self.play(
+            FadeInFrom(sor, DOWN),
+            Flash(
+                sor, line_length=1, num_lines=20,
+                flash_radius=sor.width+SMALL_BUFF,
+                run_time=2
+                )
+        )
+        self.play(
+            Flash(
+                sor, line_length=1, num_lines=20,
+                flash_radius=sor.width+SMALL_BUFF,
+                run_time=2
+                )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( Unwrite(v), FadeOut(sor) )
+        self.wait( DEFAULT_PAUSE )
