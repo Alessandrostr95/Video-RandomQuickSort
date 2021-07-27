@@ -505,3 +505,198 @@ class QuickSort(Scene):
 
         self.play( Unwrite(v), FadeOut(sor) )
         self.wait( DEFAULT_PAUSE )
+
+
+class CodeRandomQuickSort(Scene):
+    def construct(self):
+        randomqs_code = Code(
+            "RandomQuickSort.py",
+            tab_width=4,
+            background_stroke_color=WHITE,
+            insert_line_no=False,
+            style=Code.styles_list[1],  # emacs
+            background="window",
+            language="python",
+            font="Monospace",
+            generate_html_file=True
+            ).scale(.85)
+        self.add(randomqs_code)
+        self.wait( 10 )
+
+class Analisi(Scene):
+    def construct(self):
+
+        warning = Text(
+            "Warning: Danger zone, math's area!",
+            t2c={"Warning:":RED},
+            font="Monospace",
+            weight=BOLD
+            ).scale(.9)
+        
+        self.play( Write( warning ) )
+        self.play(
+            Wiggle(warning[:7], scale_value=1.25,),
+            Wiggle(warning[19:23], scale_value=1.5, run_time=1.75, n_wiggles=5)
+            )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( FadeOut(warning, shift=RIGHT*10) )
+        self.wait( DEFAULT_PAUSE )
+
+        questions = BulletedList("Why Random?", "How fast is Random Quick Sort?")\
+                    .set_opacity(0.5).scale(1.3).to_edge(LEFT)
+        self.play( Write(questions) )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( questions[0].animate().set_opacity(1) )
+        self.wait( DEFAULT_PAUSE )
+
+        ans1 = Tex("$\\rightarrow$ choose uniformly at random the \\textit{pivot}").next_to(questions[0])
+        self.play( FadeInFrom(ans1, LEFT) )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( questions[1].animate().set_opacity(1) )
+        self.wait( DEFAULT_PAUSE )
+
+        ans2 = VGroup(
+            Tex("$\\downarrow$"),
+            Tex("Time = n° of switch sides = n° comparisons with \\textit{pivot}")
+            ).arrange(DOWN).next_to(questions[1], DOWN).shift(RIGHT*2)
+        self.play(
+            FadeInFrom(ans2, UP)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( Unwrite(questions), Unwrite(ans1), Unwrite(ans2) )
+        self.wait( DEFAULT_PAUSE )
+
+        """
+            [0, 1, 4, 6, 7, 9, 12, 13, 21]
+             0  1  2  3  4  5   6   7   8 
+        """
+        v = Matrix([[0, 1, 4, 6, 7, 9, 12, 13, 21]], h_buff=1.5)
+        self.play( Write( v ) )
+        self.wait()
+
+        y = Matrix(
+            [["y_0", "y_1", "y_2", "y_3", "y_4", "y_5", "y_6", "y_7", "y_8"]],
+            h_buff=1.5
+        ).next_to(v, DOWN*2)
+        arrows = VGroup(*[Arrow(start=config.top-UP, end=ORIGIN+UP) for _ in range(9)]).arrange(buff=1.15)
+        self.play(
+            v.animate().shift(UP*2),
+            FadeInFrom(y, UP),
+            *[GrowArrow(a) for a in arrows]
+        )
+        self.play(
+            FadeOut(arrows, shift=DOWN)
+        )
+        self.wait()
+
+        new_v = Matrix([[6, 0, 13, 9, 7, 12, 21, 1, 4]], h_buff=1.5)
+        new_y = Matrix(
+            [["y_3", "y_0", "y_7", "y_5", "y_4", "y_6", "y_8", "y_1", "y_2"]],
+            h_buff=1.5
+        ).next_to(new_v, DOWN*2)
+        new_v.shift(UP*2)
+        
+        self.play(
+            TransformMatchingShapes(v, new_v),
+            TransformMatchingShapes(y, new_y)
+            )
+        v = new_v
+        y = new_y
+        self.wait( DEFAULT_PAUSE )
+
+        brace_y = Brace(y[0][:], UP)
+        brace_v = Brace(v[0][:], DOWN)
+        t = Text("Same order").shift(UP*.5)
+
+        self.play(
+            FadeInFrom(brace_v, UP),
+            FadeInFrom(brace_y, DOWN),
+            GrowFromCenter(t)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            FadeOut(brace_v, shift=UP),
+            FadeOut(brace_y, shift=DOWN),
+            ShrinkToCenter(t)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        a_v, a_y = v[0][0], y[0][0]
+        b_v, b_y = v[0][4], y[0][4]
+
+        self.play(
+            Indicate(a_v, scale_factor=2, color=ORANGE),
+            Indicate(a_y, scale_factor=2, color=ORANGE),
+            run_time=2
+        )
+        self.wait()
+        self.play(
+            Indicate(b_v, scale_factor=2, color=BLUE),
+            Indicate(b_y, scale_factor=2, color=BLUE),
+            run_time=2
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Swap(a_v, b_v, run_time=2),
+            Swap(a_y, b_y, run_time=2)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        v.save_state()
+        y.save_state()
+        statement1 = MathTex("i \\leq j").scale(2)
+        statement2 = MathTex("\\Longrightarrow y_i \\leq y_j").scale(2).shift(RIGHT*2)
+        self.play(
+            FadeOut(v),
+            FadeOut(y),
+            Write(statement1)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            statement1.animate().shift(LEFT*2),
+            FadeInFrom(statement2, LEFT)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            FadeOut(statement1),
+            FadeOut(statement2),
+            Restore(v),
+            Restore(y)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        g = VGroup(y[0][5].copy(), y[0][6].copy())
+        self.play(
+            g.animate().shift(UP*1.5)
+        )
+        self.wait()
+        leq_1 = MathTex("\\leq").set_x(g.get_center()[0]).set_y(g.get_center()[1])
+        leq_2 = MathTex("\\leq").set_x(v[0][5:7].get_center()[0]).set_y(v[0][5:7].get_center()[1])
+        self.play( Write(leq_1) )
+        self.wait()
+        self.play( Write(leq_2) )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( Indicate(VGroup(g, leq_1)) )
+        self.play( Indicate(VGroup(v[0][5:7], leq_2)) )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( Unwrite(g), Unwrite(leq_1), Unwrite(leq_2) )
+        self.wait( DEFAULT_PAUSE )
+
+        """"
+        Y = Matrix([["y_1", "y_2", "y_3", "\\cdots", "y_i", "\\cdots", "y_j", "\\cdots", "y_n",]])
+        self.play(
+            Transform(y, Y),
+            FadeOut(v)
+        )
+        self.wait( DEFAULT_PAUSE )
+        """
