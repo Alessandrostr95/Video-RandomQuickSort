@@ -1,5 +1,6 @@
 from random import randint
 from manim import *
+import numpy as np
 
 DEFAULT_PAUSE = 1
 
@@ -55,7 +56,8 @@ class Intro(Scene):
             [[1, 2, 3, 4, 5, 6]],
             h_buff=1.35
             ).next_to(shapes, DOWN)
-        self.play(FadeInFrom(sequence, DOWN))
+        #self.play(FadeInFrom(sequence, DOWN))   ###
+        self.play(FadeIn(sequence, shift=UP))
         self.wait( DEFAULT_PAUSE )
 
         self.play(
@@ -134,8 +136,10 @@ class Explain(Scene):
 
         self.play(
             Group(a, b).animate().scale(.5),
-            FadeInFrom(left, DOWN*2),
-            FadeInFrom(right, DOWN*2)
+            #FadeInFrom(left, DOWN*2),
+            #FadeInFrom(right, DOWN*2)
+            FadeIn(left, shift=UP),
+            FadeIn(right, shift=UP)
         )
         """
             Vettore a questo punto
@@ -201,7 +205,8 @@ class QuickSort(Scene):
         ran = Text("Random", gradient=(PURPLE, BLUE, GREEN)).scale(3).next_to(qs, UP)
         self.play(
             qs.animate().shift(DOWN),
-            FadeInFrom(ran, DOWN)
+            #FadeInFrom(ran, DOWN)
+            FadeIn(ran, shift=UP)
             )
         self.wait( DEFAULT_PAUSE )
 
@@ -227,7 +232,8 @@ class QuickSort(Scene):
 
         piv = Text("Pivot", color=ORANGE ).next_to(pivot, UP)
         self.play(
-            FadeInFrom(piv, DOWN),
+            #FadeInFrom(piv, DOWN),
+            FadeIn(piv, shift=UP),
             pivot.animate().set_color(ORANGE)
         )
         self.wait( DEFAULT_PAUSE )
@@ -299,8 +305,10 @@ class QuickSort(Scene):
 
         self.play(
             Group(left, right).animate().shift( UP*.5 ),
-            FadeInFrom(brace_left, DOWN),
-            FadeInFrom(brace_right, DOWN)
+            #FadeInFrom(brace_left, DOWN),
+            #FadeInFrom(brace_right, DOWN)
+            FadeIn(brace_left, shift=UP),
+            FadeIn(brace_right, shift=UP)
         )
         self.wait( DEFAULT_PAUSE )
 
@@ -366,7 +374,8 @@ class QuickSort(Scene):
         sor = Tex("Stop! It's sorted.").next_to(v, UP*1.5)
         self.play(
             Restore(v[0][1]),
-            FadeInFrom(sor, DOWN)
+            #FadeInFrom(sor, DOWN)
+            FadeIn(sor, shift=UP)
         )
         self.wait( 1 )
         self.play( FadeOut(sor, shift=UP*1.5) )
@@ -376,7 +385,8 @@ class QuickSort(Scene):
         new_v = Matrix([[0, 0, 0, 1, 2, 2, 3, 4]], h_buff=1.5)
         self.play(
             TransformMatchingShapes(v, new_v),
-            FadeInFrom(came_back, DOWN)
+            #FadeInFrom(came_back, DOWN)
+            FadeIn(came_back, shift=UP)
         )
         self.play( FadeOut(came_back, shift=DOWN) )
         v = new_v
@@ -385,7 +395,8 @@ class QuickSort(Scene):
         sor = BraceText(v[0][:3], "Already sorted")
         self.play(
             Circumscribe(v[0][:3],fade_out=True, time_width=1, run_time=2),
-            FadeInFrom(sor, UP*.5)
+            #FadeInFrom(sor, UP*.5)
+            FadeIn(sor, shift=DOWN*.5)
         )
         self.play( FadeOut(sor, shift=UP*.5) )
         self.wait()
@@ -393,7 +404,8 @@ class QuickSort(Scene):
         sor = BraceText(v[0][:], "Sorted")
         self.play(
             Circumscribe(v[0][:],fade_out=True, time_width=1, run_time=2),
-            FadeInFrom(sor, UP*.5)
+            #FadeInFrom(sor, UP*.5)
+            FadeIn(sor, shift=DOWN*.5)
         )
         self.play( FadeOut(sor, shift=UP*.5) )
         self.wait( DEFAULT_PAUSE )
@@ -401,7 +413,8 @@ class QuickSort(Scene):
         new_v = Matrix([[0, 0, 0, 1, 2, 2, 3, 4, 4, 6, 5, 7, 5, 7, 8, 8, 9]], h_buff=.7)
         self.play(
             TransformMatchingShapes(v, new_v),
-            FadeInFrom(came_back, DOWN)
+            #FadeInFrom(came_back, DOWN)
+            FadeIn(came_back, shift=UP)
         )
         self.play( FadeOut(came_back, shift=DOWN) )
         v = new_v
@@ -455,7 +468,8 @@ class QuickSort(Scene):
         self.wait()
 
         sor = BraceText(v[0][:], "Sorted")
-        self.play( FadeInFrom(sor, UP) )
+        #self.play( FadeInFrom(sor, UP) )
+        self.play( FadeIn(sor, shift=DOWN) )
         self.wait()
 
         new_v = Matrix([[5, 5, 6, 7, 7, 8, 8, 9]], h_buff=1.5)
@@ -467,12 +481,14 @@ class QuickSort(Scene):
         self.wait()
 
         sor = BraceText(v[0][4:], "Already sorted")
-        self.play( FadeInFrom(sor, UP) )
+        #self.play( FadeInFrom(sor, UP) )
+        self.play( FadeIn(sor, shift=DOWN) )
         self.wait()
 
         sor2 = BraceText(v[0][:], "Sorted", brace_direction=UP)
         self.play(
-            FadeInFrom(sor2, DOWN),
+            #FadeInFrom(sor2, DOWN),
+            FadeIn(sor2, shift=UP),
             FadeOut(sor, shift=UP)
         )
         self.wait()
@@ -487,7 +503,8 @@ class QuickSort(Scene):
 
         sor = Tex("Sorted :)").scale(1.3).next_to(v, UP*1.5)
         self.play(
-            FadeInFrom(sor, DOWN),
+            #FadeInFrom(sor, DOWN),
+            FadeIn(sor, shift=UP),
             Flash(
                 sor, line_length=1, num_lines=20,
                 flash_radius=sor.width+SMALL_BUFF,
@@ -552,7 +569,8 @@ class Analisi(Scene):
         self.wait( DEFAULT_PAUSE )
 
         ans1 = Tex("$\\rightarrow$ choose uniformly at random the \\textit{pivot}").next_to(questions[0])
-        self.play( FadeInFrom(ans1, LEFT) )
+        # self.play( FadeInFrom(ans1, LEFT) )
+        self.play( FadeIn(ans1, shift=RIGHT) )
         self.wait( DEFAULT_PAUSE )
 
         self.play( questions[1].animate().set_opacity(1) )
@@ -560,14 +578,36 @@ class Analisi(Scene):
 
         ans2 = VGroup(
             Tex("$\\downarrow$"),
-            Tex("Time = n° of switch sides = n° comparisons with \\textit{pivot}")
+            Tex("Time ", "$\\rightarrow$", " n° of switch sides ", "$\\rightarrow$", " n° comparisons with \\textit{pivot}")
             ).arrange(DOWN).next_to(questions[1], DOWN).shift(RIGHT*2)
         self.play(
-            FadeInFrom(ans2, UP)
+            # FadeInFrom(ans2, UP)
+            FadeIn(ans2, shift=DOWN)
         )
         self.wait( DEFAULT_PAUSE )
 
-        self.play( Unwrite(questions), Unwrite(ans1), Unwrite(ans2) )
+        rect = SurroundingRectangle(ans2[1][0])
+        self.play( Create( rect ) )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(
+                rect,
+                SurroundingRectangle(ans2[1][2])
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(
+                rect,
+                SurroundingRectangle(ans2[1][4])
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+
+        self.play( Unwrite(questions), Unwrite(ans1), Unwrite(ans2), Uncreate(rect) )
         self.wait( DEFAULT_PAUSE )
 
         """
@@ -585,7 +625,8 @@ class Analisi(Scene):
         arrows = VGroup(*[Arrow(start=config.top-UP, end=ORIGIN+UP) for _ in range(9)]).arrange(buff=1.15)
         self.play(
             v.animate().shift(UP*2),
-            FadeInFrom(y, UP),
+            # FadeInFrom(y, UP),
+            FadeIn(y, shift=DOWN),
             *[GrowArrow(a) for a in arrows]
         )
         self.play(
@@ -613,8 +654,10 @@ class Analisi(Scene):
         t = Text("Same order").shift(UP*.5)
 
         self.play(
-            FadeInFrom(brace_v, UP),
-            FadeInFrom(brace_y, DOWN),
+            # FadeInFrom(brace_v, UP),
+            # FadeInFrom(brace_y, DOWN),
+            FadeIn(brace_v, shift=DOWN),
+            FadeIn(brace_y, shift=UP),
             GrowFromCenter(t)
         )
         self.wait( DEFAULT_PAUSE )
@@ -650,7 +693,7 @@ class Analisi(Scene):
 
         v.save_state()
         y.save_state()
-        statement1 = MathTex("i \\leq j").scale(2)
+        statement1 = MathTex("i < j").scale(2)
         statement2 = MathTex("\\Longrightarrow y_i \\leq y_j").scale(2).shift(RIGHT*2)
         self.play(
             FadeOut(v),
@@ -661,7 +704,7 @@ class Analisi(Scene):
 
         self.play(
             statement1.animate().shift(LEFT*2),
-            FadeInFrom(statement2, LEFT)
+            FadeIn(statement2, shift=RIGHT)    ###
         )
         self.wait( DEFAULT_PAUSE )
 
@@ -692,11 +735,1044 @@ class Analisi(Scene):
         self.play( Unwrite(g), Unwrite(leq_1), Unwrite(leq_2) )
         self.wait( DEFAULT_PAUSE )
 
-        """"
         Y = Matrix([["y_1", "y_2", "y_3", "\\cdots", "y_i", "\\cdots", "y_j", "\\cdots", "y_n",]])
         self.play(
-            Transform(y, Y),
+            #Transform(y, Y),
+            TransformMatchingShapes(y, Y),
             FadeOut(v)
         )
         self.wait( DEFAULT_PAUSE )
-        """
+        
+        yi, yj = Y[0][4].copy(), Y[0][6].copy()
+        Y.save_state()
+        self.play(
+            Y[0][4].animate().scale(1.2).set_color( ORANGE ),
+            Y[0][6].animate().scale(1.2).set_color( ORANGE )
+        )
+        self.wait()
+        self.play(
+            Restore(Y),
+            yi.animate().set_color( WHITE ).shift( UP + RIGHT*.5 ),
+            yj.animate().set_color( WHITE ).shift( UP + LEFT*.5 ),
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        g = VGroup(yi, yj)
+        leq = MathTex("\\stackrel{\\text{?}}{\\leq}").set_x(g.get_center()[0]).set_y(g.get_center()[1]+UP[1]*.1).scale(.75)
+        brace = BraceText(g, "Will they ever be compared?", brace_direction=UP).shift(UP*.2)
+        self.play(
+            FadeIn(brace, shift=UP),
+            Write( leq )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            FadeOut(brace, shift=UP),
+            Unwrite( leq ),
+            Unwrite(Y, run_time=.75),
+            Transform(g, MathTex("y_i, y_j"), run_time=1.5)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+class Analisi_2(Scene):
+    def construct(self):
+        
+        X = MathTex("y_i, y_j")
+        self.add( X )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(X, MathTex("1 \\leq i < j \\leq n"))
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(X, MathTex("X_{i, j}"))
+        )
+        self.wait( DEFAULT_PAUSE )
+        
+        brace = BraceText(X, "random variable", brace_direction=RIGHT)
+        self.play(
+            FadeIn(brace, shift=RIGHT)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        eq1 = _eq, _1 = Tex("$=$ ","$1$").next_to(X, RIGHT)
+        self.play(
+            FadeOut(brace, shift=UP),
+            FadeIn(eq1, shift=UP)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        _0 = Tex("$0$").move_to(_1)
+        self.play(
+            FadeOut(_1, shift=UP),
+            FadeIn(_0, shift=UP)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        brace = BraceText(Group(X, eq1), "if $y_i$ and $y_j$ are compared\\\\at any time", brace_direction=DOWN)
+        self.play(
+            FadeOut(_0, shift=DOWN),
+            FadeIn(_1, shift=DOWN),
+            FadeIn(brace, shift=DOWN)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        brace2 = BraceText(Group(X, eq1), "otherwise", brace_direction=DOWN)
+        self.play(
+            FadeOut(_1, shift=UP),
+            FadeIn(_0, shift=UP),
+            TransformMatchingShapes(
+                brace,
+                brace2
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Unwrite( _eq ),
+            Unwrite( _0 ),
+            Unwrite( brace2 )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        tot = Tex("Total number of comparison =").shift(UP)
+        Xs = MathTex("X_{1,2} + X_{1,3} + \\cdots X_{1,n} + X_{2,3} + X_{2,4} + \\cdots + X_{2,n} + \\cdots X_{n-1, n}")
+        self.play(
+            GrowFromCenter( tot ),
+            Transform(X, Xs)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        s = Tex("for all $1 \\leq i < j \\leq n$").shift(DOWN*2)
+        self.play(
+            Write( s )
+        )
+        self.play(
+            Circumscribe(s, fade_in=True, stroke_width=5, run_time=2)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            FadeOut(s, shift=DOWN)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        equation = MathTex("\\sum_{i=1}^{n-1} \\sum_{j=i+1}^{n} X_{i,j}")
+        self.play(
+            Transform(X, equation)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(tot, MathTex("X=").next_to(tot.get_center(), ORIGIN))
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            tot.animate.shift(DOWN + LEFT),
+            X.animate.shift( RIGHT )
+        )
+        self.wait( DEFAULT_PAUSE )
+        
+        self.play(Flash(
+            Group(tot, X),
+            line_length=1,
+            num_lines=30,
+            color=YELLOW,
+            flash_radius= Group(tot, X).width*.5 + SMALL_BUFF,
+            time_width=0.3,
+            run_time=2,
+            rate_func = rush_from
+        ))
+        self.wait( DEFAULT_PAUSE )
+
+        q = Text("but, how can I calculate it?").next_to(Group(tot, X), DOWN).scale(.5)
+        self.play(
+            FadeIn(q, shift=DOWN)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        m = Text("I have to calculate the average").next_to(q, DOWN).scale(.5)
+        self.play(
+            GrowFromCenter( m )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        eq = MathTex("\\mathbf{E}\\left[ X \\right] =", "\\mathbf{E}\\left[ \\sum_{i=1}^{n-1} \\sum_{j=i+1}^{n} X_{i,j} \\right]")
+        self.play(
+            ReplacementTransform(
+                VGroup(tot, X),
+                eq,
+                run_time=1.75
+            ),
+            Wiggle(m[-7:], scale_value=1.25, run_time=2, n_wiggles=7)
+            #Indicate(m[-7:], run_time=4)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            FadeOut(
+                Group(q, m),
+                shift=DOWN
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        brace = BraceText(eq, "Linearity property", brace_direction=DOWN)
+        self.play(
+            Transform(
+                eq[1],
+                MathTex(
+                    "\\sum_{i=1}^{n-1} \\sum_{j=i+1}^{n}","\\mathbf{E}\\left[ X_{i,j} \\right]"
+                    ).next_to(eq[1], ORIGIN)
+            ),
+            FadeIn(brace, shift=DOWN)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( FadeOut(brace, shift=UP) )
+        self.wait( DEFAULT_PAUSE )
+        
+        calculemus = Text(
+            '"Calculemus!"',
+            gradient=(BLUE, GREEN)
+            ).to_edge(UP)
+        self.play(
+            Write( calculemus )
+        )        
+        self.wait( DEFAULT_PAUSE )
+
+        leibniz = Text(
+            "- Leibniz's dream -",
+            slant=ITALIC
+        ).next_to(calculemus, DOWN).scale(.5).set_opacity(.75)
+        self.play(
+            FadeIn(leibniz, shift=DOWN)
+        )
+        self.wait( DEFAULT_PAUSE*2 )
+
+        self.play(
+            ShrinkToCenter(Group(calculemus, leibniz))
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.remove( eq[1] )
+        x = eq[1][-1].copy().set_opacity(1)
+        self.add( x )
+
+        eq.save_state()
+        self.play(
+            eq.animate().scale(.5).set_opacity(0),
+            x.animate.next_to(ORIGIN, ORIGIN)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+class Analisi_3(Scene):
+    def construct(self):
+
+        x = MathTex("\\mathbf{E}\\left[ X_{i,j} \\right]")
+        self.add( x )
+        self.wait( DEFAULT_PAUSE )
+
+        formula = _eq, val = MathTex(
+            "=",
+            "\\sum_{k} k \\cdot \\mathcal{P}\\left( X_{i,j} = k\\right)"
+            ).shift( RIGHT + DOWN*.2 )
+        
+        self.play(
+            x.animate.shift( LEFT*2.25 ),
+            FadeIn(formula, shift=RIGHT)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        _val = MathTex(
+                    "0 \\cdot \\mathcal{P}\\left( X_{i,j} = 0\\right)",
+                    "+",
+                    "1 \\cdot \\mathcal{P}\\left( X_{i,j} = 1\\right)"
+                    ).next_to(_eq, RIGHT)
+        self.play(
+            ReplacementTransform(
+                val,
+                _val
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+        val = _val
+
+        rect = SurroundingRectangle(val[0])
+        self.play( Create( rect ) )
+        self.wait( DEFAULT_PAUSE )
+
+        cross = Cross(val[0])
+        self.play( Create( cross ) )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(
+                rect,
+                SurroundingRectangle(val[-1])
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(
+                val,
+                MathTex("\\mathcal{P}\\left( X_{i,j} = 1\\right)").next_to(_eq, RIGHT)
+            ),
+            Uncreate(cross, run_time=.5),
+            Uncreate( rect )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Flash(
+                Group(x, val),
+                line_length=1,
+                num_lines=30,
+                color=YELLOW,
+                flash_radius= Group(x, val).width*.5 + SMALL_BUFF,
+                time_width=0.3,
+                run_time=2,
+                rate_func = rush_from
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+        
+        p = val[-1].copy().set_opacity(1)
+        self.play(
+            VGroup(x, _eq, val).animate.scale(.5).set_opacity(0),
+            p.animate.next_to(ORIGIN, ORIGIN)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(
+                p,
+                MathTex("\\mathcal{P}\\left( y_i, y_j \\mbox{ are compared}\\right)")
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        t = Tex("how ?").next_to(p, UP)
+        self.play(
+            FadeIn(t, shift=UP)
+        )
+        self.wait( DEFAULT_PAUSE )
+        self.play(
+            FadeOut(t, shift=DOWN)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        p.save_state()
+        Y = Matrix(
+            [["y_1", "\\cdots", "y_i", "y_{i+1}", "\\cdots", "y_k", "\\cdots", "y_{j-1}", "y_j", "\\cdots", "y_n"]]
+            ).scale(.75)
+
+        self.play(
+            p.animate.to_corner( UL ).scale( .75 ),
+            GrowFromCenter( Y )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        yk = Y[0][5]
+        yk.save_state()
+        piv = Tex("pivot").scale(.5).next_to(yk, UP).set_color( ORANGE )
+        self.play(
+            yk.animate.scale( 1.5 ).set_color( ORANGE ),
+            FadeIn(piv, shift=UP)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        t1 = MathTex("i < k < j").shift( DOWN*1.5 )
+        self.play( Write( t1 ) )
+        self.wait( DEFAULT_PAUSE )
+
+        t2 = MathTex("\\Rightarrow", "y_i \\leq y_k \\leq y_j").shift( DOWN*1.5 + RIGHT*1.5 )
+        self.play(
+            t1.animate.shift( LEFT*1.5 ),
+            FadeIn(t2, shift=RIGHT)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        t3 = Tex("$\\Rightarrow y_i$ will go left, $y_j$ will go right").shift( DOWN*1.5 + RIGHT*1.5 )
+        self.play(
+            t1.animate.shift( LEFT*3 ).set_opacity( 0 ),
+            t2[0].animate.shift( LEFT*3 ).set_opacity( 0 ),
+            t2[1].animate.shift( LEFT*5.3 ),
+            FadeIn(t3, shift=LEFT)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        t4 = Tex("$\\Rightarrow y_i$ and $y_j$ will never be compared!").shift( DOWN*1.5 )
+        self.play(
+            t2[1].animate.shift( LEFT*2 ).set_opacity( 0 ),
+            t3.animate.shift( LEFT*2 ).set_opacity( 0 ),
+            FadeIn(t4, shift=LEFT)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Restore( yk ),
+            FadeOut( piv ),
+            Unwrite( t4 )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( Circumscribe( Y[0][:2] ) )
+        self.wait( DEFAULT_PAUSE )
+        self.play( Circumscribe( Y[0][9:] ) )
+        self.wait( DEFAULT_PAUSE )
+
+        Y.save_state()
+        self.play(
+            Y[0][:2].animate.scale( .5 ).set_opacity( .5 ),
+            Y[0][2:9].animate.scale( 1.25 ),
+            Y[0][9:].animate.scale( .5 ).set_opacity( .5 ),
+            FocusOn( Y[0][2:9] )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        brace = BraceText(Y[0][2:9], "pivot here!", brace_direction=DOWN)
+        self.play( FadeIn(brace, shift=DOWN) )
+        self.wait( DEFAULT_PAUSE )
+        self.play( FadeOut(brace, shift=UP) )
+
+        self.play( Indicate( Y[0][2] ) )
+        self.wait( DEFAULT_PAUSE )
+        self.play( Indicate( Y[0][8] ) )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( Restore( Y ) )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Y.animate.shift( DOWN*1.5 ),
+            Restore( p )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        new_p = MathTex(
+                    "\\mathcal{P}\\left(",                                  #0
+                    "\\mbox{pivot } \\in \\{",                              #1
+                    "y_i",                                                  #2
+                    ",",                                                    #3
+                    "y_j",                                                  #4
+                    "\\} | \\mbox{ pivot } \\in \\{",                       #5
+                    "y_i, y_{i+1}, \\cdots, y_k, \\cdots, y_{j-1}, y_j",    #6
+                    "\\} \\right)"
+                )
+        self.play( ReplacementTransform(p, new_p) )
+        p = new_p
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Indicate(p[2], scale_factor=1.5, run_time=2),
+            Indicate(Y[0][2], scale_factor=1.5, run_time=2)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Indicate(p[4], scale_factor=1.5, run_time=2),
+            Indicate(Y[0][8], scale_factor=1.5, run_time=2)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Indicate(p[6],run_time=2),
+            Indicate(Y[0][2:9], run_time=2)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        p2 = MathTex(
+            "= \\frac{2}{|\\{y_i, y_{i+1}, \\cdots, y_k, \\cdots, y_{j-1}, y_j\\}|}" 
+        )
+        self.play(
+            p.animate.shift( UP*1.5 ),
+            FadeIn(p2)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(
+                p2,
+                MathTex("= \\frac{2}{j-i+1}")
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        x = MathTex(
+            "\\mathbf{E}\\left[ X_{i,j} \\right]"
+            ).next_to(p2, LEFT).shift( RIGHT )
+        self.play(
+            FadeOut( Y ),
+            FadeOut( p ),
+            p2.animate.shift( RIGHT ),
+            FadeIn(x, shift=LEFT)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(
+                VGroup(x, p2),
+                MathTex(
+                    "\\mathbf{E}\\left[ X \\right]",
+                    "=",
+                    "\\sum_{i=1}^{n-1} \\sum_{j=i+1}^{n}",
+                    "\\frac{2}{j-i+1}"
+                    )
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+class Analisi_4(Scene):
+    def construct(self):
+        X = MathTex(
+            "\\mathbf{E}\\left[ X \\right]",
+            "=",
+            "\\sum_{i=1}^{n-1} \\sum_{j=i+1}^{n}",
+            "\\frac{2}{j-i+1}"
+            )
+        self.add( X )
+        self.wait( DEFAULT_PAUSE )
+        
+        new_X = MathTex(
+            "\\mathbf{E}\\left[ X \\right]",    # 0
+            "=",                                # 1
+            "2",                                # 2
+            "\\sum_{i=1}^{n-1}",                # 3
+            "\\sum_{j=i+1}^{n}",                # 4 <-
+            "\\frac{1}{j-i+1}"                  # 5
+            )
+        self.play( ReplacementTransform(X, new_X) )
+        X = new_X
+        self.wait( DEFAULT_PAUSE )
+
+        X.save_state()
+
+        self.play(
+            X[:4].animate.scale( .5 ).set_opacity( 0 ),
+            X[4:].animate.next_to(ORIGIN, ORIGIN)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play( X[4:].animate.to_edge(UP) )
+        self.wait( DEFAULT_PAUSE )
+        
+        _i = 1
+        i = Variable(
+            _i, MathTex("i"), var_type=Integer
+        ).to_corner( UL )
+        i.label.set_color( YELLOW )
+        
+        _j = 2 
+        j = Variable(
+            _j, MathTex("j"), var_type=Integer
+        ).next_to(i, DOWN)
+        j.label.set_color( RED )
+
+        
+        self.play( 
+            Write( i ),
+            Write( j ),
+            Transform(
+                X[5][2:],
+                MathTex(
+                    "2 - 1 - 1",
+                    tex_to_color_map={"2": RED}
+                ).next_to(X[5][2:], ORIGIN)
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+        
+
+        a1 = X[5].copy()
+        self.play(
+            Transform(
+                a1,
+                MathTex(
+                    "\\frac{1}{2}"
+                ).to_edge( LEFT ).set_color( GREEN )
+            )
+        )
+
+        _j += 1
+        self.play(
+            j.tracker.animate.set_value( _j ),
+            Transform(
+                X[5][2:],
+                MathTex(
+                    "3 - 1 - 1",
+                    tex_to_color_map={"3": RED}
+                ).next_to(X[5][2:], ORIGIN)
+            )
+            )
+        self.wait( DEFAULT_PAUSE )
+
+        a2 = X[5:].copy()
+        self.play(
+            Transform(
+                a2,
+                MathTex(
+                    "+ \\frac{1}{3}"
+                ).next_to(a1, RIGHT).set_color( GREEN )
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        _j += 1
+        self.play(
+            j.tracker.animate.set_value( _j ),
+            Transform(
+                X[5][2:],
+                MathTex(
+                    "4 - 1 - 1",
+                    tex_to_color_map={"4": RED}
+                ).next_to(X[5][2:], ORIGIN)
+            )
+            )
+        self.wait( DEFAULT_PAUSE )
+
+        a3 = X[5:].copy()
+        self.play(
+            Transform(
+                a3,
+                MathTex(
+                    "+ \\frac{1}{4}"
+                ).next_to(a2, RIGHT).set_color( GREEN )
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        _j = 100
+        self.play( j.tracker.animate(run_time=2).set_value( _j ) )
+        self.wait( DEFAULT_PAUSE )
+
+        a4 = MathTex("+ \\frac{1}{5}").next_to(a3, RIGHT).set_color( GREEN )
+        self.play(
+            Transform(
+                X[5][2:],
+                MathTex(
+                    "5 - 1 - 1",
+                    tex_to_color_map={"5": RED}
+                ).next_to(X[5][2:], ORIGIN)
+            ),
+            FadeIn(a4, shift=RIGHT)
+        )
+
+        a5 = MathTex("+ \\frac{1}{6}").next_to(a4, RIGHT).set_color( GREEN )
+        self.play(
+            Transform(
+                X[5][2:],
+                MathTex(
+                    "6 - 1 - 1",
+                    tex_to_color_map={"6": RED}
+                ).next_to(X[5][2:], ORIGIN)
+            ),
+            FadeIn(a5, shift=RIGHT)
+        )
+
+        a100 = MathTex("+ \\cdots + \\frac{1}{100}").next_to(a5, RIGHT).set_color( GREEN )
+        self.play(
+            Transform(
+                X[5][2:],
+                MathTex(
+                    "100 - 1 - 1",
+                    tex_to_color_map={"100": RED}
+                ).next_to(X[5][2:], ORIGIN)
+            ),
+            FadeIn(a100, shift=RIGHT)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        an = MathTex("+ \\cdots + ","\\frac{1}{n-i+1}").next_to(a100, RIGHT).set_color( GREEN )
+        self.play(
+            Transform(
+                X[5][2:],
+                MathTex(
+                    "n - 1 - 1",
+                    tex_to_color_map={"n": RED}
+                ).next_to(X[5][2:], ORIGIN)
+            ),
+            FadeIn(an, shift=RIGHT)
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Flash(
+                an[1],
+                line_length=1,
+                num_lines=30,
+                color=YELLOW,
+                flash_radius= an[1].width*.5 + SMALL_BUFF,
+                time_width=0.3,
+                run_time=2,
+                rate_func = rush_from
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Unwrite( i ),
+            Unwrite( j ),
+            FadeOut(a1, a2, a3, a4, a5, a100, an),
+            Restore( X )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        
+        new_X = MathTex(
+            "\\mathbf{E}\\left[ X \\right]",    # 0
+            "=",                                # 1
+            "2",                                # 2
+            "\\sum_{i=1}^{n-1}",                # 3
+            "\\sum_{k=2}^{n-i+1}",              # 4
+            "\\frac{1}{k}"                      # 5
+            )
+        self.play( ReplacementTransform(X, new_X) )
+        X = new_X
+        self.wait( DEFAULT_PAUSE )
+
+        X.save_state()
+
+        plane = NumberPlane(
+            x_range = (0, 11),
+            y_range = (0, 11),
+            x_length = 6.5,
+            y_length = 6.5,
+            axis_config={"include_numbers": False}
+        )
+        plane.center()
+
+        # ax = Axes(
+        #     x_range=[0, 10],
+        #     y_range=[0, 10],
+        #     x_axis_config={
+        #         "numbers_to_include": [1, 2, 3]
+        #         },
+        #     y_axis_config={
+        #         "numbers_to_include": [1, 2, 3]
+        #         },
+        #     tips=False,
+        # )
+        
+        labels = plane.get_axis_labels(
+            x_label='i',
+            y_label='k'
+            )
+
+        values = [
+            (1, "1"),
+            (2, "2"),
+            (3, "3"),
+            (5, "\\cdots"),
+            (8, "n-2"),
+            (9, "n-1"),
+            (10, "n")
+        ]
+
+        x_axis_labels = VGroup()  # Create a group named x_axis_labels
+        #   pos.   tex.
+        for x_val, x_tex in values:
+            tex = MathTex(x_tex)
+            tex.scale( .45 )
+            tex.next_to(plane.coords_to_point(x_val, 0), DOWN)
+            x_axis_labels.add(tex)  # Add tex in graph
+        
+        values[3] = (5, "\\vdots")
+
+        y_axis_labels = VGroup()  # Create a group named x_axis_labels
+        #   pos.   tex.
+        for y_val, y_tex in values:
+            tex = MathTex(y_tex)
+            tex.scale( .45 )
+            tex.next_to(plane.coords_to_point(0, y_val), LEFT)
+            x_axis_labels.add(tex)  # Add tex in graph
+
+        self.play(
+            X.animate.scale( .5 ).to_edge( RIGHT ),
+            Create( plane ),
+            Create( labels ),
+            Create( x_axis_labels ),
+            Create( y_axis_labels )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        def get_circle_by_coord(coord):
+            return Circle(radius=.1).next_to(coord, ORIGIN).set_fill(YELLOW, opacity=1)
+        
+        i = MathTex("i=","1").to_corner(UR, buff=1.5)
+        k = MathTex("k=","2").next_to(i, DOWN)
+        p = get_circle_by_coord(plane.coords_to_point(1, 2))
+        points = [ p ]
+        self.play(
+            Create( i ),
+            Create( k ),
+            GrowFromCenter( p )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+
+        p = get_circle_by_coord(plane.coords_to_point(1, 3))
+        self.play(
+            Transform(k[1], MathTex("3").next_to(k[0], RIGHT)),
+            GrowFromCenter( p )
+        )
+        points.append( p )
+        self.wait( DEFAULT_PAUSE )
+
+        p = get_circle_by_coord(plane.coords_to_point(1, 4))
+        self.play(
+            Transform(k[1], MathTex("4").next_to(k[0], RIGHT)),
+            GrowFromCenter( p )
+        )
+        points.append( p )
+        self.wait( DEFAULT_PAUSE )
+
+        P = VGroup(*[get_circle_by_coord(plane.coords_to_point(1, h)) for h in range(5, 11)])
+        ratios = [0, .5, 1, 1.5, 2, 2.5]  
+        self.play(
+            Transform(k[1], MathTex("n").next_to(k[0], RIGHT)),
+            AnimationGroup(*[
+                GrowFromCenter(p, lag_ratio=r)
+                for p, r in zip(P, ratios)
+            ])  
+        )
+        points.extend( P )
+        self.wait( DEFAULT_PAUSE )
+
+        P = VGroup(*[get_circle_by_coord(plane.coords_to_point(2, h)) for h in range(2, 10)])
+        ratios = [0, .333, .666, 1, 1.333, 1.666, 2, 2.333]  
+        self.play(
+            Transform(i[1], MathTex("2").next_to(i[0], RIGHT)),
+            k.animate.set_opacity( 0 ),
+            AnimationGroup(*[
+                GrowFromCenter(p, lag_ratio=r)
+                for p, r in zip(P, ratios)
+            ])  
+        )
+        points.extend( P )
+        self.wait( DEFAULT_PAUSE )
+
+
+        P = VGroup(*[get_circle_by_coord(plane.coords_to_point(3, h)) for h in range(2, 9)])
+        ratios = [0, .4, .8, 1.2, 1.6, 2, 2.4]  
+        self.play(
+            Transform(i[1], MathTex("3").next_to(i[0], RIGHT)),
+            k.animate.set_opacity( 0 ),
+            AnimationGroup(*[
+                GrowFromCenter(p, lag_ratio=r)
+                for p, r in zip(P, ratios)
+            ])  
+        )
+        points.extend( P )
+        self.wait( DEFAULT_PAUSE )
+
+        P = VGroup(*[get_circle_by_coord(plane.coords_to_point(4, h)) for h in range(2, 8)])
+        ratios = [0, .5, 1, 1.5, 2, 2.5]  
+        self.play(
+            Transform(i[1], MathTex("4").next_to(i[0], RIGHT)),
+            k.animate.set_opacity( 0 ),
+            AnimationGroup(*[
+                GrowFromCenter(p, lag_ratio=r)
+                for p, r in zip(P, ratios)
+            ])  
+        )
+        points.extend( P )
+        self.wait( DEFAULT_PAUSE )
+
+        P = VGroup(*[get_circle_by_coord(plane.coords_to_point(5, h)) for h in range(2, 7)])
+        P.add(*[get_circle_by_coord(plane.coords_to_point(6, h)) for h in range(2, 6)])
+        P.add(*[get_circle_by_coord(plane.coords_to_point(7, h)) for h in range(2, 5)])
+        P.add(*[get_circle_by_coord(plane.coords_to_point(8, h)) for h in range(2, 4)])
+        P.add( get_circle_by_coord(plane.coords_to_point(9, 2)) )
+
+        self.play(
+            Transform(i[1], MathTex("n-1").next_to(i[0], RIGHT)),
+            AnimationGroup(*[
+                GrowFromCenter(p)
+                for p in P
+            ])
+        )
+        points.extend( P )
+        self.wait( DEFAULT_PAUSE )
+
+        arrows = VGroup(*[
+            Arrow(
+                max_tip_length_to_length_ratio=.2,
+                start=DOWN,
+                end=UP
+            )
+            for _ in range(9)
+        ]).arrange( LEFT ).to_corner( DOWN )
+
+        self.play(
+            AnimationGroup(*[
+                GrowArrow(a)
+                for a in arrows
+            ])
+        )
+        self.play(
+            arrows.animate.move_to( UP*5 ).set_opacity( 0 )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        arrows = VGroup(*[
+            Arrow(
+                max_tip_length_to_length_ratio=.2,
+                start=LEFT,
+                end=RIGHT
+            )
+            for _ in range(9)
+        ]).arrange( DOWN ).next_to(plane, LEFT)
+
+        self.play(
+            AnimationGroup(*[
+                GrowArrow(a)
+                for a in arrows
+            ])
+        )
+        self.play(
+            arrows.animate.move_to( RIGHT*5 ).set_opacity( 0 )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            FadeOut( i ),
+            X.animate( run_time=2 ).scale( 2 ).next_to(ORIGIN+RIGHT, ORIGIN),
+            VGroup(
+                plane,
+                labels,
+                x_axis_labels,
+                y_axis_labels,
+                *points
+            ).animate( run_time=2 ).scale( .5 ).to_edge( LEFT )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(
+                X[3],
+                MathTex("\\sum_{k=2}^{n}").next_to(X[3], ORIGIN)
+            ),
+            Transform(
+                X[4],
+                MathTex("\\sum_{i=1}^{n-k+1}").next_to(X[4], ORIGIN)
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        s = Text("take a minute to convince yourself").scale( .75 ).to_edge( DOWN )
+        self.play( FadeIn(s, shift=UP) )
+        self.wait( DEFAULT_PAUSE*3 )
+
+        self.play(
+            FadeOut(s, shift=DOWN),
+            X.animate( run_time=2 ).next_to(ORIGIN, ORIGIN),
+            VGroup(
+                plane,
+                labels,
+                x_axis_labels,
+                y_axis_labels,
+                *points
+            ).animate( run_time=2 ).scale( .5 ).set_opacity( 0 )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(
+                X[4:],
+                MathTex("\\frac{n-k+1}{k}").next_to(X[3], RIGHT)
+                )
+        )
+        self.wait( DEFAULT_PAUSE )  
+
+        self.play(
+            Transform(
+                X[4:],
+                MathTex("\\left( \\frac{n+1}{k} - \\frac{k}{k} \\right)").next_to(X[3], RIGHT)
+                )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        self.play(
+            Transform(
+                X[3:],
+                MathTex(
+                    "\\left( \\sum_{k=2}^{n}\\frac{n+1}{k} - \\sum_{k=2}^{n}1 \\right)"
+                    ).next_to(X[2], RIGHT)
+                )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        x = MathTex(
+            "\\left(",                      # 0
+            "(n+1)",                        # 1
+            "\\sum_{k=2}^{n}\\frac{1}{k}",  # 2
+            "- (n-1) \\right)"              # 3
+            ).next_to(X[2], RIGHT)
+        self.play(
+            ReplacementTransform(
+                X[3:],
+                x
+            )   
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        brace = Brace(x[2], direction=DOWN)
+        s = Tex("$\\approx$ harmonic series").scale( .5 ).next_to(brace, DOWN)
+        self.play(
+            FadeIn(Group(brace, s), shift=DOWN)
+            )
+        self.wait( DEFAULT_PAUSE )
+        self.play(
+            Transform(
+                s,
+                MathTex("\\approx \\ln{n} + \\Theta(1)").scale( .5 ).next_to(brace, DOWN)
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+
+        result = MathTex("2n\\ln{n} + \\Theta(n)").next_to(X[1], RIGHT)
+        self.play(
+            ShrinkToCenter(VGroup(brace, s)),
+            ReplacementTransform(
+                VGroup(x, X[2:]),
+                result
+            )
+        )
+        self.wait( DEFAULT_PAUSE )
+        
+        formula = Group(X[:2], result)
+        flash = Flash(
+                formula,
+                line_length=1,
+                num_lines=30,
+                color=YELLOW,
+                flash_radius= formula.width*.5 + SMALL_BUFF,
+                time_width=0.3,
+                run_time=2,
+                rate_func = rush_from
+            )
+
+        self.play( flash )
+        self.play( flash )
+
+        t = Text(
+            "RandomQuickSort's running time :)",
+            gradient=(RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE)
+            ).to_edge( UP )
+        self.play(
+            FadeIn(t, shift=DOWN),
+            flash
+        )
+
+        self.play( flash )
+
+        self.play(
+            FadeOut(t, shift=UP),
+            ShrinkToCenter( formula )
+        )
+        self.wait( DEFAULT_PAUSE )
