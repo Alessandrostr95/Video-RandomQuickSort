@@ -152,6 +152,12 @@ class Explain(Scene):
         self.sort_vector(lista)
         self.wait( DEFAULT_PAUSE )
 
+        t = Tex("Too slow ...")
+        self.play( GrowFromCenter( t ) )
+        self.wait( DEFAULT_PAUSE )
+        self.play( ShrinkToCenter( t ) )
+        self.wait( DEFAULT_PAUSE )
+
     """
         Metodo che data una lista genera l'animazione
         degli step del bubble sort
@@ -181,8 +187,7 @@ class Explain(Scene):
         self.wait( DEFAULT_PAUSE )
 
         self.play( Unwrite( v ) )
-
-
+        
 class QuickSort(Scene):
 
     def construct(self):
@@ -445,11 +450,26 @@ class QuickSort(Scene):
         )
         v = new_v
         self.wait()
-
+        
         self.play(
             v[0][2].animate().scale(1.5).set_color(ORANGE)
         )
         self.wait()
+
+        brace_left = BraceLabel(v[0][:2], "\\leq pivot", UP).shift(UP*.5)
+        brace_right = BraceLabel(v[0][3:], "> pivot", UP).shift(UP*.5)
+
+        self.play(
+            FadeIn(brace_left, shift=UP),
+            FadeIn(brace_right, shift=UP)
+        )
+        self.wait()
+        self.play(
+            FadeOut(brace_left, shift=DOWN),
+            FadeOut(brace_right, shift=DOWN)
+        )
+        self.wait()
+        
         self.play( Swap(v[0][2], v[0][3]) )
         self.wait()
 
@@ -1280,7 +1300,7 @@ class Analisi_4(Scene):
             Transform(
                 X[5][2:],
                 MathTex(
-                    "2 - 1 - 1",
+                    "2 - 1 + 1",
                     tex_to_color_map={"2": RED}
                 ).next_to(X[5][2:], ORIGIN)
             )
@@ -1304,7 +1324,7 @@ class Analisi_4(Scene):
             Transform(
                 X[5][2:],
                 MathTex(
-                    "3 - 1 - 1",
+                    "3 - 1 + 1",
                     tex_to_color_map={"3": RED}
                 ).next_to(X[5][2:], ORIGIN)
             )
@@ -1328,7 +1348,7 @@ class Analisi_4(Scene):
             Transform(
                 X[5][2:],
                 MathTex(
-                    "4 - 1 - 1",
+                    "4 - 1 + 1",
                     tex_to_color_map={"4": RED}
                 ).next_to(X[5][2:], ORIGIN)
             )
@@ -1355,7 +1375,7 @@ class Analisi_4(Scene):
             Transform(
                 X[5][2:],
                 MathTex(
-                    "5 - 1 - 1",
+                    "5 - 1 + 1",
                     tex_to_color_map={"5": RED}
                 ).next_to(X[5][2:], ORIGIN)
             ),
@@ -1367,7 +1387,7 @@ class Analisi_4(Scene):
             Transform(
                 X[5][2:],
                 MathTex(
-                    "6 - 1 - 1",
+                    "6 - 1 + 1",
                     tex_to_color_map={"6": RED}
                 ).next_to(X[5][2:], ORIGIN)
             ),
@@ -1379,7 +1399,7 @@ class Analisi_4(Scene):
             Transform(
                 X[5][2:],
                 MathTex(
-                    "100 - 1 - 1",
+                    "100 - 1 + 1",
                     tex_to_color_map={"100": RED}
                 ).next_to(X[5][2:], ORIGIN)
             ),
@@ -1392,7 +1412,7 @@ class Analisi_4(Scene):
             Transform(
                 X[5][2:],
                 MathTex(
-                    "n - 1 - 1",
+                    "n - 1 + 1",
                     tex_to_color_map={"n": RED}
                 ).next_to(X[5][2:], ORIGIN)
             ),
@@ -1776,3 +1796,5 @@ class Analisi_4(Scene):
             ShrinkToCenter( formula )
         )
         self.wait( DEFAULT_PAUSE )
+
+
